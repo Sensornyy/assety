@@ -11,4 +11,5 @@ Before you launch the app on your emulator or real device with developer's confi
 ## What's implemented
 
 Auth screen - sign up (create user), sign in, sign in with google
+
 User screen - get user, update user (display name), sign out, delete user
