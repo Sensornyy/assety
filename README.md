@@ -4,13 +4,11 @@ A new Flutter project.
 
 ## Getting Started
 
-This project is a starting point for a Flutter application.
+Before you launch the app on your emulator or real device with developer's configurations done, write the command in terminal:
 
-A few resources to get you started if this is your first Flutter project:
+`dart run build_runner build`
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+## What's implemented
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+Auth screen - sign up (create user), sign in, sign in with google
+User screen - get user, update user (display name), sign out, delete user
