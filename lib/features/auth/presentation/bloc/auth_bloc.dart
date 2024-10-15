@@ -28,12 +28,12 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         password: event.password,
       );
 
-      // if (result.isError) {
-      //   result = await _repository.signInWithEmailAndPassword(
-      //     email: event.email,
-      //     password: event.password,
-      //   );
-      // }
+      if (result.isError) {
+        result = await _repository.signInWithEmailAndPassword(
+          email: event.email,
+          password: event.password,
+        );
+      }
     } else if (event is SignInWithEmailAndPassword) {
       result = await _repository.signInWithEmailAndPassword(
         email: event.email,
