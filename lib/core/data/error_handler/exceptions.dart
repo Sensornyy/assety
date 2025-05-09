@@ -1,0 +1,1 @@
+class AssetNotFoundException implements Exception {}

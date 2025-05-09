@@ -60,7 +60,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     }
 
     result.when(
-      failure: (_) => emit(AuthFailure()),
+      failure: () => emit(AuthFailure()),
       success: () => emit(AuthSuccess()),
     );
   }

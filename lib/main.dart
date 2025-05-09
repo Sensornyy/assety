@@ -1,6 +1,7 @@
 import 'package:assety/app.dart';
 import 'package:assety/core/di/init_di.config.dart';
 import 'package:assety/core/di/init_di.dart';
+import 'package:assety/features/investments/crypto/domain/repository/crypto_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
