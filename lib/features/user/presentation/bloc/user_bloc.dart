@@ -43,8 +43,8 @@ class UserBloc extends Bloc<UserEvent, UserState> {
       return emit(UserFailure());
     }
 
-    result.when(
-      failure: (_) => emit(UserFailure()),
+    await result.when(
+      failure: () => emit(UserFailure()),
       success: () => emit(UserSuccess(user!)),
       successWithData: (_) => emit(UserSuccess(user!)),
     );

@@ -1,11 +1,17 @@
-abstract class Result<S, F> {
+import 'dart:async';
+
+abstract class Result<S> {
   final S? data;
-  final F? error;
+  final Exception? error;
+  final String? errorMessage;
+  final int? errorCode;
   final bool isError;
 
   Result._({
     this.data,
     this.error,
+    this.errorMessage,
+    this.errorCode,
     required this.isError,
   });
 
@@ -17,35 +23,40 @@ abstract class Result<S, F> {
     return _SuccessWithData(data: data);
   }
 
-  factory Result.failure([F? error]) {
-    return _Failure(error: error);
+  factory Result.failure({Exception? error, String? errorMessage, int? errorCode}) {
+    return _Failure(
+      error: error,
+      errorMessage: errorMessage,
+      errorCode: errorCode,
+    );
   }
 
-  void when({
-    void Function()? success,
-    void Function(S)? successWithData,
-    void Function(F?)? failure,
-  }) {
+  Future<void> when({
+    FutureOr<void> Function()? success,
+    FutureOr<void> Function(S)? successWithData,
+    FutureOr<void> Function()? failure,
+    FutureOr<void> Function(Exception)? failureWithException,
+  }) async {
     if (isError && failure != null) {
-      failure(error);
+      await Future.value(failure());
+    } else if (isError && failureWithException != null) {
+      await Future.value(failureWithException(error!));
     } else if (data == null && success != null) {
-      success();
+      await Future.value(success());
     } else if (successWithData != null) {
-      successWithData(data!);
+      await Future.value(successWithData(data as S));
     }
   }
 }
 
-class _Success<S, F> extends Result<S, F> {
+class _Success<S> extends Result<S> {
   _Success() : super._(isError: false, data: null);
 }
 
-class _SuccessWithData<S, F> extends Result<S, F> {
-  final S data;
-
-  _SuccessWithData({required this.data}) : super._(isError: false, data: data);
+class _SuccessWithData<S> extends Result<S> {
+  _SuccessWithData({super.data}) : super._(isError: false);
 }
 
-class _Failure<S, F> extends Result<S, F> {
-  _Failure({F? error}) : super._(isError: true, error: error, data: null);
+class _Failure<S> extends Result<S> {
+  _Failure({super.error, super.errorMessage, super.errorCode}) : super._(isError: true, data: null);
 }

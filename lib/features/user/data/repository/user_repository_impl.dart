@@ -21,7 +21,9 @@ class UserRepositoryImpl implements UserRepository {
 
       return Result.successWithData(user);
     } catch (e) {
-      return Result.failure(e.toString());
+      return Result.failure(
+        errorMessage: e.toString(),
+      );
     }
   }
 
@@ -35,7 +37,9 @@ class UserRepositoryImpl implements UserRepository {
 
       return Result.success();
     } catch (e) {
-      return Result.failure(e.toString());
+      return Result.failure(
+        errorMessage: e.toString(),
+      );
     }
   }
 
@@ -47,7 +51,9 @@ class UserRepositoryImpl implements UserRepository {
 
       return Result.success();
     } catch (e) {
-      return Result.failure(e.toString());
+      return Result.failure(
+        errorMessage: e.toString(),
+      );
     }
   }
 }
