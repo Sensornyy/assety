@@ -1,5 +1,6 @@
 import 'package:assety/core/data/error_handler/result.dart';
 import 'package:assety/core/data/managers/auth_manager.dart';
+import 'package:assety/core/data/managers/dio_manager.dart';
 import 'package:assety/features/auth/domain/repository/auth_repository.dart';
 import 'package:injectable/injectable.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -7,8 +8,9 @@ import 'package:url_launcher/url_launcher.dart';
 @Injectable(as: AuthRepository)
 class AuthRepositoryImpl implements AuthRepository {
   final AuthManager _authManager;
+  final DioManager _dioManager;
 
-  AuthRepositoryImpl(this._authManager);
+  AuthRepositoryImpl(this._authManager, this._dioManager,);
 
   @override
   Future<Result<String>> signUpWithEmailAndPassword({
@@ -59,13 +61,11 @@ class AuthRepositoryImpl implements AuthRepository {
   Future<Result> signInWithApple() async {
     try {
       final url = Uri.parse('https://api.monobank.ua');
-      if (await canLaunchUrl(url)) {
-        await launchUrl(url, mode: LaunchMode.externalApplication);
-      } else {
-        throw 'Не вдалось відкрити Monobank';
-      }
+      await launchUrl(url, mode: LaunchMode.inAppBrowserView);
 
-      await _authManager.signInWithApple();
+      final req = await _dioManager.dio.get('https://api.monobank.ua');
+      print(req);
+      // await _authManager.signInWithApple();
 
       return Result.success();
     } catch (e) {

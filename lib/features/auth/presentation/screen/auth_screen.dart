@@ -83,7 +83,7 @@ class _AuthScreenState extends State<AuthScreen> {
                         GestureDetector(
                           onTap: () {
                             bloc.add(
-                              SignInWithGoogle(),
+                              SignInWithApple(),
                             );
                           },
                           child: Container(
