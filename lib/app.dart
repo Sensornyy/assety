@@ -3,6 +3,8 @@ import 'package:assety/features/transactions/presentation/screens/transactions_s
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import 'features/home/presentation/screen/home_screen.dart';
+
 class App extends StatelessWidget {
   const App({super.key});
 
@@ -45,7 +47,7 @@ class App extends StatelessWidget {
             ),
           ),
         ),
-        home: TransactionsScreen(),
+        home: HomeScreen(),
       ),
     );
   }
