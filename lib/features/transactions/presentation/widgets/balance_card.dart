@@ -24,7 +24,7 @@ class BalanceCard extends StatelessWidget {
           ),
           const SizedBox(height: 8),
           Text(
-            '₴${balance.toStringAsFixed(2)}',
+            '${balance.toStringAsFixed(2)} ₴',
             style: const TextStyle(
               color: Colors.white,
               fontWeight: FontWeight.bold,

@@ -72,7 +72,8 @@ class _TransactionsScreenState extends State<TransactionsScreen> {
                         padding: const EdgeInsets.all(16),
                         itemCount: transactions.length,
                         itemBuilder: (context, index) {
-                          final tx = transactions[index];
+                          final trx = transactions.reversed.toList();
+                          final tx = trx[index];
                           final color = tx.isExpense ? Colors.red : Colors.green;
                           final icon = categoryIcons[tx.category.name] ?? Icons.category;
 
@@ -111,8 +112,8 @@ class _TransactionsScreenState extends State<TransactionsScreen> {
                                   crossAxisAlignment: CrossAxisAlignment.end,
                                   children: [
                                     Text(
-                                      (tx.isExpense ? '-₴' : '+₴') +
-                                          tx.amount.toStringAsFixed(2),
+                                      (tx.isExpense ? '-' : '+') +
+                                          tx.amount.toStringAsFixed(2) + ' ₴',
                                       style: TextStyle(
                                         fontWeight: FontWeight.bold,
                                         fontSize: 16,

@@ -1,3 +1,4 @@
+import 'package:assety/features/analytics/presentation/screens/chart_screen.dart';
 import 'package:assety/features/transactions/presentation/screens/transactions_screen.dart';
 import 'package:flutter/material.dart';
 
@@ -13,10 +14,10 @@ class _HomeScreenState extends State<HomeScreen> {
 
   final List<Widget> _pages = const [
     TransactionsScreen(), // Home
-    // AnalyticsScreen(),    // Analytics (заглушка)
+    AnalyticsScreen(),    // Analytics (заглушка)
     // ProfileScreen(),      // Profile (заглушка)
 
-    TransactionsScreen(),
+    // TransactionsScreen(),
     TransactionsScreen(),
   ];
 

@@ -17,6 +17,7 @@ class App extends StatelessWidget {
         )
       ],
       child: MaterialApp(
+        debugShowCheckedModeBanner: false,
         theme: ThemeData(
           textTheme: TextTheme(
             bodyMedium: TextStyle(fontSize: 18),
