@@ -32,125 +32,193 @@ class _AddTransactionScreenState extends State<AddTransactionScreen> {
   @override
   Widget build(BuildContext context) {
     final bloc = context.read<TransactionsBloc>();
+    final isDark = Theme.of(context).brightness == Brightness.dark;
 
     return Scaffold(
-      appBar: AppBar(title: const Text('Нова транзакція')),
-      body: Padding(
-        padding: const EdgeInsets.all(16),
+      backgroundColor: const Color(0xFF121212),
+      appBar: AppBar(
+        backgroundColor: const Color(0xFF121212),
+        foregroundColor: Colors.white,
+        title: const Text('Нова транзакція'),
+        centerTitle: true,
+      ),
+      body: SingleChildScrollView(
+        padding: const EdgeInsets.all(20),
         child: Column(
           children: [
+            // Сума + Валюта
             Row(
               children: [
                 Expanded(
                   child: TextField(
                     controller: _amountController,
                     keyboardType: TextInputType.number,
-                    decoration: const InputDecoration(labelText: 'Сума'),
+                    style: const TextStyle(color: Colors.white),
+                    decoration: InputDecoration(
+                      labelText: 'Сума',
+                      labelStyle: const TextStyle(color: Colors.grey),
+                      filled: true,
+                      fillColor: Colors.grey.shade900,
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                    ),
                   ),
                 ),
                 const SizedBox(width: 12),
                 DropdownButton<String>(
                   value: _selectedCurrency,
+                  dropdownColor: Colors.grey.shade900,
+                  style: const TextStyle(color: Colors.white),
+                  underline: Container(),
                   items: currencySymbols.keys.map((code) {
                     return DropdownMenuItem(
                       value: code,
-                      child: Text(currencySymbols[code]!),
+                      child: Text(
+                        currencySymbols[code]!,
+                        style: TextStyle(fontSize: 20),
+                      ),
                     );
                   }).toList(),
                   onChanged: (value) {
                     if (value != null) {
-                      setState(() {
-                        _selectedCurrency = value;
-                      });
+                      setState(() => _selectedCurrency = value);
                     }
                   },
                 ),
               ],
             ),
+            const SizedBox(height: 24),
 
-            const SizedBox(height: 16),
+            // Тип транзакції
             Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
-                const Text('Тип транзакції:'),
-                DropdownButton<bool>(
-                  value: _isExpense,
-                  items: const [
-                    DropdownMenuItem(value: true, child: Text('Витрата')),
-                    DropdownMenuItem(value: false, child: Text('Дохід')),
-                  ],
-                  onChanged: (value) {
-                    if (value != null) {
-                      setState(() => _isExpense = value);
-                    }
-                  },
-                ),
+                _buildTypeButton(true, Icons.remove_circle, 'Витрата'),
+                _buildTypeButton(false, Icons.add_circle, 'Дохід'),
               ],
             ),
-            const SizedBox(height: 16),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                const Text('Категорія:'),
-                DropdownButton<String>(
+            const SizedBox(height: 24),
+
+            // Категорія
+            InputDecorator(
+              decoration: InputDecoration(
+                labelText: 'Категорія',
+                labelStyle: const TextStyle(color: Colors.grey),
+                filled: true,
+                fillColor: Colors.grey.shade900,
+                border: OutlineInputBorder(borderRadius: BorderRadius.circular(12)),
+              ),
+              child: DropdownButtonHideUnderline(
+                child: DropdownButton<String>(
                   value: _selectedCategory,
-                  hint: const Text('Оберіть категорію'),
-                  items: categoryIcons.keys.map((categoryName) {
+                  hint: const Text('Оберіть категорію', style: TextStyle(color: Colors.grey)),
+                  dropdownColor: Colors.grey.shade900,
+                  style: const TextStyle(color: Colors.white),
+                  isExpanded: true,
+                  items: categoryIcons.keys.map((name) {
                     return DropdownMenuItem(
-                      value: categoryName,
+                      value: name,
                       child: Row(
                         children: [
-                          Icon(categoryIcons[categoryName]),
+                          Icon(categoryIcons[name], color: Colors.white),
                           const SizedBox(width: 8),
-                          Text(categoryName),
+                          Text(name),
                         ],
                       ),
                     );
                   }).toList(),
                   onChanged: (value) {
-                    setState(() {
-                      _selectedCategory = value;
-                    });
+                    setState(() => _selectedCategory = value);
                   },
                 ),
-              ],
+              ),
             ),
-            const SizedBox(height: 16),
+            const SizedBox(height: 24),
+
+            // Опис
             TextField(
               controller: _descriptionController,
-              decoration: const InputDecoration(labelText: 'Опис'),
+              style: const TextStyle(color: Colors.white),
+              decoration: InputDecoration(
+                labelText: 'Опис (необов’язково)',
+                labelStyle: const TextStyle(color: Colors.grey),
+                filled: true,
+                fillColor: Colors.grey.shade900,
+                border: OutlineInputBorder(borderRadius: BorderRadius.circular(12)),
+              ),
             ),
-            const Spacer(),
+            const SizedBox(height: 36),
+
+            // Кнопка
+            // Кнопка "Додати" (оновлений стиль)
             SizedBox(
               width: double.infinity,
               height: 56,
-              child: ElevatedButton(
+              child: ElevatedButton.icon(
                 onPressed: () {
                   if (_amountController.text.isEmpty || _selectedCategory == null) {
                     ScaffoldMessenger.of(context).showSnackBar(
-                      const SnackBar(content: Text('Заповніть всі поля')),
+                      const SnackBar(content: Text('Заповніть всі обов’язкові поля')),
                     );
                     return;
                   }
-                  final random = Random();
 
                   final transaction = TransactionEntity(
                     amount: double.tryParse(_amountController.text) ?? 0.0,
                     description: _descriptionController.text,
                     isExpense: _isExpense,
-                    category: CategoryEntity(id: random.nextInt(10000), name: _selectedCategory!),
+                    category: CategoryEntity(
+                      id: Random().nextInt(10000),
+                      name: _selectedCategory!,
+                    ),
                   );
 
                   bloc.add(AddTransaction(transaction));
                   Navigator.pop(context);
                 },
-                style: ElevatedButton.styleFrom(
-                  textStyle: Theme.of(context).textTheme.headlineSmall,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(8),
-                  ),
+                icon: const Icon(
+                  Icons.check,
+                  color: Colors.white,
                 ),
-                child: const Text('Додати'),
+                label: const Text(
+                  'Додати',
+                  style: TextStyle(fontSize: 18),
+                ),
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.deepPurpleAccent,
+                  foregroundColor: Colors.white,
+                  textStyle: Theme.of(context).textTheme.titleMedium,
+                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildTypeButton(bool isExpenseType, IconData icon, String label) {
+    final isSelected = _isExpense == isExpenseType;
+    return GestureDetector(
+      onTap: () => setState(() => _isExpense = isExpenseType),
+      child: Container(
+        padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 24),
+        decoration: BoxDecoration(
+          color: isSelected ? Colors.deepPurpleAccent : Colors.grey.shade900,
+          borderRadius: BorderRadius.circular(12),
+          border: Border.all(color: Colors.deepPurpleAccent, width: 1.5),
+        ),
+        child: Row(
+          children: [
+            Icon(icon, color: isSelected ? Colors.white : Colors.grey),
+            const SizedBox(width: 8),
+            Text(
+              label,
+              style: TextStyle(
+                color: isSelected ? Colors.white : Colors.grey,
+                fontWeight: FontWeight.bold,
               ),
             ),
           ],
