@@ -1,10 +1,7 @@
-import 'dart:io';
-
 import 'package:assety/features/auth/presentation/bloc/auth_bloc.dart';
 import 'package:assety/features/user/presentation/screen/user_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 
 class AuthScreen extends StatefulWidget {
   const AuthScreen({super.key});
@@ -31,6 +28,7 @@ class _AuthScreenState extends State<AuthScreen> {
     final bloc = context.read<AuthBloc>();
 
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       body: SafeArea(
         child: BlocConsumer<AuthBloc, AuthState>(
           listener: (context, state) {
@@ -53,15 +51,21 @@ class _AuthScreenState extends State<AuthScreen> {
           builder: (context, state) {
             return Center(
               child: Padding(
-                padding: const EdgeInsets.all(16.0),
+                padding: const EdgeInsets.only(
+                  top: 100.0,
+                  left: 16,
+                  right: 16,
+                  bottom: 24,
+                ),
                 child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
+                  spacing: 24,
                   children: [
-                    Spacer(),
                     Text(
-                      'Welcome!',
+                      'Вітаю! Уведіть свої дані для входу',
                       style: textTheme.displaySmall,
+                      textAlign: TextAlign.center,
                     ),
+                    SizedBox(height: 64),
                     TextField(
                       controller: _emailController,
                       keyboardType: TextInputType.emailAddress,
@@ -69,73 +73,16 @@ class _AuthScreenState extends State<AuthScreen> {
                     ),
                     TextField(
                       controller: _passwordController,
-                      decoration: InputDecoration(labelText: 'Password'),
+                      decoration: InputDecoration(labelText: 'Пароль'),
                     ),
                     Spacer(),
-                    Text(
-                      'Continue with:',
-                      style: textTheme.headlineSmall,
-                    ),
-                    SizedBox(height: 30),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: [
-                        GestureDetector(
-                          onTap: () {
-                            bloc.add(
-                              SignInWithApple(),
-                            );
-                          },
-                          child: Container(
-                            height: 64,
-                            width: 64,
-                            decoration: BoxDecoration(
-                              border: Border.all(),
-                              borderRadius: BorderRadius.circular(8),
-                            ),
-                            child: Center(
-                              child: SvgPicture.asset(
-                                'assets/icons/google.svg',
-                                height: 30,
-                                width: 30,
-                              ),
-                            ),
-                          ),
-                        ),
-                        if (Platform.isIOS)
-                          GestureDetector(
-                            onTap: () {
-                              bloc.add(
-                                SignInWithApple(),
-                              );
-                            },
-                            child: Container(
-                              height: 64,
-                              width: 64,
-                              decoration: BoxDecoration(
-                                color: Colors.black,
-                                border: Border.all(),
-                                borderRadius: BorderRadius.circular(8),
-                              ),
-                              child: Center(
-                                child: SvgPicture.asset(
-                                  'assets/icons/apple.svg',
-                                  colorFilter: ColorFilter.mode(
-                                    Colors.white,
-                                    BlendMode.srcIn,
-                                  ),
-                                  height: 30,
-                                  width: 30,
-                                ),
-                              ),
-                            ),
-                          ),
-                      ],
-                    ),
-                    Spacer(),
-                    SizedBox(
+                    Container(
                       height: 56,
                       width: double.infinity,
+                      decoration: BoxDecoration(
+                        border: Border.all(color: Colors.deepPurpleAccent),
+                        borderRadius: BorderRadius.circular(10),
+                      ),
                       child: ElevatedButton(
                         onPressed: () {
                           bloc.add(
@@ -153,8 +100,7 @@ class _AuthScreenState extends State<AuthScreen> {
                             ),
                           ),
                         ),
-                        child:
-                            state is AuthLoading ? CircularProgressIndicator() : Text('Continue'),
+                        child: state is AuthLoading ? CircularProgressIndicator() : Text('Увійти'),
                       ),
                     ),
                   ],
