@@ -1,8 +1,8 @@
 import 'package:assety/features/auth/presentation/bloc/auth_bloc.dart';
-import 'package:assety/features/transactions/presentation/screens/transactions_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import 'features/auth/presentation/screen/auth_screen.dart';
 import 'features/home/presentation/screen/home_screen.dart';
 
 class App extends StatelessWidget {
