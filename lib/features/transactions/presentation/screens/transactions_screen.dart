@@ -48,7 +48,7 @@ class _TransactionsScreenState extends State<TransactionsScreen> {
         body: SafeArea(
           child: Column(
             children: [
-              const BalanceCard(balance: 4250.80), // 💰 Верхній блок
+              const BalanceCard(balance: 0.00), // 💰 Верхній блок
               Expanded(
                 child: BlocConsumer<TransactionsBloc, TransactionsState>(
                   listener: (context, state) {},
@@ -57,14 +57,28 @@ class _TransactionsScreenState extends State<TransactionsScreen> {
                       final transactions = state.transactions;
                       if (transactions.isEmpty) {
                         return Center(
-                          child: Text(
-                            'Список транзакцій пустий\nСтворіть нову, натиснувши +',
-                            style: Theme.of(context)
-                                .textTheme
-                                .headlineMedium
-                                ?.copyWith(color: Colors.white),
-                            textAlign: TextAlign.center,
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Text(
+                                'Список транзакцій пустий',
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .headlineMedium
+                                    ?.copyWith(color: Colors.white),
+                                textAlign: TextAlign.start,
+                              ),
+                              Text(
+                                'Створіть нову, натиснувши +',
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .labelLarge
+                                    ?.copyWith(color: Colors.white70),
+                                textAlign: TextAlign.start,
+                              ),
+                            ],
                           ),
+
                         );
                       }
 

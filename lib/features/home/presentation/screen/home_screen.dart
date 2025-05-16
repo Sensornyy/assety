@@ -1,4 +1,5 @@
 import 'package:assety/features/analytics/presentation/screens/chart_screen.dart';
+import 'package:assety/features/profile/presentation/screen/profile_screen.dart';
 import 'package:assety/features/transactions/presentation/screens/transactions_screen.dart';
 import 'package:flutter/material.dart';
 
@@ -15,10 +16,9 @@ class _HomeScreenState extends State<HomeScreen> {
   final List<Widget> _pages = const [
     TransactionsScreen(), // Home
     AnalyticsScreen(),    // Analytics (заглушка)
-    // ProfileScreen(),      // Profile (заглушка)
+    ProfileScreen(),      // Profile (заглушка)
 
     // TransactionsScreen(),
-    TransactionsScreen(),
   ];
 
   void _onTabTapped(int index) {
@@ -45,17 +45,17 @@ class _HomeScreenState extends State<HomeScreen> {
               _buildTabItem(
                 index: 0,
                 icon: Icons.home,
-                label: 'Home',
+                label: 'Головна',
               ),
               _buildTabItem(
                 index: 1,
                 icon: Icons.pie_chart,
-                label: 'Analytics',
+                label: 'Аналітика',
               ),
               _buildTabItem(
                 index: 2,
                 icon: Icons.person,
-                label: 'Profile',
+                label: 'Профіль',
               ),
             ],
           ),

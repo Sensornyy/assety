@@ -19,7 +19,7 @@ class BalanceCard extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           const Text(
-            'Your Balance',
+            'Ваш баланс',
             style: TextStyle(color: Colors.grey, fontSize: 16),
           ),
           const SizedBox(height: 8),

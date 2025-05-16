@@ -46,12 +46,12 @@ class ChartsTab extends StatelessWidget {
           title: 'Витрати за категоріями',
           chart: _buildPieChart(),
         ),
-        const SizedBox(height: 16),
+        const SizedBox(height: 10),
         _buildCard(
           title: 'Доходи та витрати',
           chart: _buildBarChart(),
         ),
-        const SizedBox(height: 16),
+        const SizedBox(height: 10),
         _buildCard(
           title: 'Тренд балансу',
           chart: _buildLineChart(),
@@ -77,7 +77,7 @@ class ChartsTab extends StatelessWidget {
                 fontWeight: FontWeight.bold,
               )),
           const SizedBox(height: 12),
-          SizedBox(height: 200, child: chart),
+          SizedBox(height: 150, child: chart),
         ],
       ),
     );
@@ -131,7 +131,7 @@ class ChartsTab extends StatelessWidget {
           makeGroupData(0, 4, 9),
           makeGroupData(1, 5, 8),
           makeGroupData(2, 6, 7),
-          makeGroupData(3, 8, 4),
+          makeGroupData(3, 9, 4),
         ],
         titlesData: FlTitlesData(
           leftTitles: AxisTitles(

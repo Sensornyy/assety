@@ -18,7 +18,6 @@ class _AuthScreenState extends State<AuthScreen> {
   void dispose() {
     _emailController.dispose();
     _passwordController.dispose();
-
     super.dispose();
   }
 
@@ -28,6 +27,7 @@ class _AuthScreenState extends State<AuthScreen> {
     final bloc = context.read<AuthBloc>();
 
     return Scaffold(
+      backgroundColor: const Color(0xFF121212),
       resizeToAvoidBottomInset: false,
       body: SafeArea(
         child: BlocConsumer<AuthBloc, AuthState>(
@@ -35,15 +35,11 @@ class _AuthScreenState extends State<AuthScreen> {
             if (state is AuthSuccess) {
               if (state.shouldSignOut) {
                 Navigator.of(context).push(
-                  MaterialPageRoute(
-                    builder: (context) => AuthScreen(),
-                  ),
+                  MaterialPageRoute(builder: (_) => const AuthScreen()),
                 );
               } else {
                 Navigator.of(context).push(
-                  MaterialPageRoute(
-                    builder: (context) => UserScreen(),
-                  ),
+                  MaterialPageRoute(builder: (_) => const UserScreen()),
                 );
               }
             }
@@ -53,36 +49,64 @@ class _AuthScreenState extends State<AuthScreen> {
               child: Padding(
                 padding: const EdgeInsets.only(
                   top: 100.0,
-                  left: 16,
-                  right: 16,
+                  left: 20,
+                  right: 20,
                   bottom: 24,
                 ),
                 child: Column(
-                  spacing: 24,
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      'Вітаю! Уведіть свої дані для входу',
-                      style: textTheme.displaySmall,
-                      textAlign: TextAlign.center,
+                      'Вітаю!',
+                      style: textTheme.displaySmall?.copyWith(color: Colors.white),
                     ),
-                    SizedBox(height: 64),
+                    const SizedBox(height: 8),
+                    Text(
+                      'Уведіть свої дані для входу',
+                      style: textTheme.bodyLarge?.copyWith(color: Colors.grey),
+                    ),
+                    const SizedBox(height: 64),
                     TextField(
                       controller: _emailController,
                       keyboardType: TextInputType.emailAddress,
-                      decoration: InputDecoration(labelText: 'Email'),
+                      style: const TextStyle(color: Colors.white),
+                      decoration: InputDecoration(
+                        labelText: 'Email',
+                        labelStyle: const TextStyle(color: Colors.white70),
+                        enabledBorder: OutlineInputBorder(
+                          borderSide: const BorderSide(color: Colors.deepPurpleAccent),
+
+                          borderRadius: BorderRadius.circular(12),
+                        ),
+                        focusedBorder: OutlineInputBorder(
+                          borderSide: const BorderSide(color: Colors.deepPurpleAccent),
+                          borderRadius: BorderRadius.circular(12),
+                        ),
+                      ),
                     ),
+                    const SizedBox(height: 20),
                     TextField(
                       controller: _passwordController,
-                      decoration: InputDecoration(labelText: 'Пароль'),
-                    ),
-                    Spacer(),
-                    Container(
-                      height: 56,
-                      width: double.infinity,
-                      decoration: BoxDecoration(
-                        border: Border.all(color: Colors.deepPurpleAccent),
-                        borderRadius: BorderRadius.circular(10),
+                      obscureText: true,
+                      style: const TextStyle(color: Colors.white),
+                      decoration: InputDecoration(
+                        labelText: 'Пароль',
+                        labelStyle: const TextStyle(color: Colors.white70),
+                        enabledBorder: OutlineInputBorder(
+                          borderSide: const BorderSide(color: Colors.deepPurpleAccent),
+
+                          borderRadius: BorderRadius.circular(12),
+                        ),
+                        focusedBorder: OutlineInputBorder(
+                          borderSide: const BorderSide(color: Colors.deepPurpleAccent),
+                          borderRadius: BorderRadius.circular(12),
+                        ),
                       ),
+                    ),
+                    const Spacer(),
+                    SizedBox(
+                      width: double.infinity,
+                      height: 56,
                       child: ElevatedButton(
                         onPressed: () {
                           bloc.add(
@@ -92,15 +116,17 @@ class _AuthScreenState extends State<AuthScreen> {
                             ),
                           );
                         },
-                        style: ButtonStyle(
-                          textStyle: WidgetStateProperty.all(textTheme.headlineSmall),
-                          shape: WidgetStateProperty.all(
-                            RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(8),
-                            ),
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: Colors.deepPurpleAccent,
+                          foregroundColor: Colors.white,
+                          textStyle: textTheme.titleMedium,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(12),
                           ),
                         ),
-                        child: state is AuthLoading ? CircularProgressIndicator() : Text('Увійти'),
+                        child: state is AuthLoading
+                            ? const CircularProgressIndicator(color: Colors.white)
+                            : const Text('Увійти', style:  TextStyle(fontSize: 20),),
                       ),
                     ),
                   ],
